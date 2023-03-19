@@ -8,10 +8,10 @@ import turkcell.homework1b.ecommerce.entities.concretes.Product;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/products")
+@RequestMapping(path = "/api/products")
 public class ProductsController
 {
-    private ProductService service;
+    private final ProductService service;
 
     @Autowired
     public ProductsController(ProductService service)
@@ -19,7 +19,7 @@ public class ProductsController
         this.service = service;
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public Product getById(@PathVariable("id") Integer id)
     {
         return service.getById(id);
