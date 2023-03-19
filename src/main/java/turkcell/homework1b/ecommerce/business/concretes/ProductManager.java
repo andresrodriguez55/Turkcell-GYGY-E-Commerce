@@ -38,9 +38,7 @@ public class ProductManager implements ProductService
     @Override
     public Product create(Product product)
     {
-        checkIfUnitPriceIsValid(product);
-        checkIfQuantityIsValid(product);
-        checkIfDescriptionLengthIsValid(product);
+        validateProduct(product);
 
         productRepository.create(product);
         return product;
@@ -49,9 +47,7 @@ public class ProductManager implements ProductService
     @Override
     public Product update(int id, Product product)
     {
-        checkIfUnitPriceIsValid(product);
-        checkIfQuantityIsValid(product);
-        checkIfDescriptionLengthIsValid(product);
+        validateProduct(product);
 
         productRepository.update(id, product);
         return product;
@@ -68,6 +64,12 @@ public class ProductManager implements ProductService
     }
 
     // Business Rules
+    private void validateProduct(Product product)
+    {
+        checkIfUnitPriceIsValid(product);
+        checkIfQuantityIsValid(product);
+        checkIfDescriptionLengthIsValid(product);
+    }
 
     private void checkIfUnitPriceIsValid(Product product)
     {
