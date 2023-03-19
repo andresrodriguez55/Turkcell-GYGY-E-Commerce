@@ -1,18 +1,19 @@
 package turkcell.homework1b.ecommerce.business.concretes;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import turkcell.homework1b.ecommerce.business.abstracts.ProductService;
 import turkcell.homework1b.ecommerce.entities.concretes.Product;
 import turkcell.homework1b.ecommerce.repository.abstracts.ProductRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProductManager implements ProductService
 {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
+    @Autowired
     public ProductManager(ProductRepository productRepository)
     {
         this.productRepository = productRepository;
@@ -26,7 +27,7 @@ public class ProductManager implements ProductService
     }
 
     @Override
-    public Product getById(Integer id)
+    public Product getById(int id)
     {
         Product product = productRepository.getById(id);
         if(product == null)
@@ -35,27 +36,25 @@ public class ProductManager implements ProductService
     }
 
     @Override
-    public void create(Product product)
+    public Product create(Product product)
     {
-        if(product.getPrice() <= 0)
-            throw new RuntimeException("Price value must be positive!");
-        if(product.getQuantity() < 0)
-            throw new RuntimeException("Quantity value must be equal to or bigger than 0!");
-        if(product.getDescription().length() < 10 || product.getDescription().length() > 50)
-            throw new RuntimeException("Description length must be between 10 and 50!");
+        checkIfUnitPriceIsValid(product);
+        checkIfQuantityIsValid(product);
+        checkIfDescriptionLengthIsValid(product);
+
         productRepository.create(product);
+        return product;
     }
 
     @Override
-    public void update(Product product)
+    public Product update(int id, Product product)
     {
-        if(product.getPrice() <= 0)
-            throw new RuntimeException("Price value must be positive!");
-        if(product.getQuantity() < 0)
-            throw new RuntimeException("Quantity value must be equal to or bigger than 0!");
-        if(product.getDescription().length() < 10 || product.getDescription().length() > 50)
-            throw new RuntimeException("Description length must be between 10 and 50!");
-        productRepository.update(product);
+        checkIfUnitPriceIsValid(product);
+        checkIfQuantityIsValid(product);
+        checkIfDescriptionLengthIsValid(product);
+
+        productRepository.update(id, product);
+        return product;
     }
 
     @Override
@@ -64,6 +63,27 @@ public class ProductManager implements ProductService
         Product dbProduct = productRepository.getById(id);
         if(dbProduct == null)
             throw new RuntimeException("Product not exists!");
+
         productRepository.delete(dbProduct);
+    }
+
+    // Business Rules
+
+    private void checkIfUnitPriceIsValid(Product product)
+    {
+        if(product.getUnitPrice() <= 0)
+            throw new IllegalArgumentException("Price value must be positive!");
+    }
+
+    private void checkIfQuantityIsValid(Product product)
+    {
+        if(product.getQuantity() < 0)
+            throw new IllegalArgumentException("Quantity value must be equal to or bigger than 0!");
+    }
+
+    private void checkIfDescriptionLengthIsValid(Product product)
+    {
+        if(product.getDescription().length() < 10 || product.getDescription().length() > 50)
+            throw new IllegalArgumentException("Description length must be between 10 and 50!");
     }
 }

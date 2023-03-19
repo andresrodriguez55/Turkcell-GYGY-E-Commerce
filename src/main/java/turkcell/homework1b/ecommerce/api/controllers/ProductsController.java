@@ -32,15 +32,15 @@ public class ProductsController
     }
 
     @PostMapping(path = "/")
-    public void create(@RequestBody Product product)
+    public Product create(@RequestBody Product product)
     {
-        service.create(product);
+        return service.create(product);
     }
 
-    @PutMapping(path = "/")
-    public void update(Product product)
+    @PutMapping(path = "{id}")
+    public Product update(@PathVariable("id") int id, @RequestBody Product product)
     {
-        service.update(product);
+        return service.update(id, product);
     }
 
     @DeleteMapping(path="{id}")

@@ -22,11 +22,11 @@ public class InMemoryProductRepository implements ProductRepository
     }
 
     @Override
-    public Product getById(Integer id)
+    public Product getById(int id)
     {
         for(Product dbProduct : products)
         {
-            if(dbProduct.getId().equals(id))
+            if(dbProduct.getId() == id)
             {
                 return dbProduct;
             }
@@ -41,9 +41,25 @@ public class InMemoryProductRepository implements ProductRepository
     }
 
     @Override
-    public void create(Product product)
+    public Product create(Product product)
     {
         products.add(product);
+        return product;
+    }
+
+    @Override
+    public Product update(int id, Product product)
+    {
+        for(int x=0; x<products.size(); x++)
+        {
+            Product productDb = products.get(x);
+            if(product.getId() == id)
+            {
+                products.set(x, product);
+                return product;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -52,23 +68,9 @@ public class InMemoryProductRepository implements ProductRepository
         for(int x=0; x<products.size(); x++)
         {
             Product dbProduct = products.get(x);
-            if(dbProduct.getId().equals(product.getId()))
+            if(dbProduct.getId() == product.getId())
             {
                 products.remove(x);
-                return;
-            }
-        }
-    }
-
-    @Override
-    public void update(Product product)
-    {
-        for(int x=0; x<products.size(); x++)
-        {
-            Product productDb = products.get(x);
-            if(product.getId().equals(productDb.getId()))
-            {
-                products.set(x, product);
                 return;
             }
         }

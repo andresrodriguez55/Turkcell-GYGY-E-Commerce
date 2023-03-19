@@ -2,31 +2,31 @@ package turkcell.homework1b.ecommerce.entities.concretes;
 
 public class Product
 {
-    private Integer id;
+    private int id;
     private String name;
-    private Integer quantity;
-    private double price;
+    private int quantity;
+    private double unitPrice;
     private String description;
 
     public Product()
     {
     }
 
-    public Product(Integer id, String name, Integer quantity, double price, String description)
+    public Product(int id, String name, int quantity, double price, String description)
     {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
-        this.price = price;
+        this.unitPrice = price;
         this.description = description;
     }
 
-    public Integer getId()
+    public int getId()
     {
         return id;
     }
 
-    public void setId(Integer id)
+    public void setId(int id)
     {
         this.id = id;
     }
@@ -41,24 +41,24 @@ public class Product
         this.name = name;
     }
 
-    public Integer getQuantity()
+    public int getQuantity()
     {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity)
+    public void setQuantity(int quantity)
     {
         this.quantity = quantity;
     }
 
-    public double getPrice()
+    public double getUnitPrice()
     {
-        return price;
+        return unitPrice;
     }
 
-    public void setPrice(double price)
+    public void setUnitPrice(double unitPrice)
     {
-        this.price = price;
+        this.unitPrice = unitPrice;
     }
 
     public String getDescription()
